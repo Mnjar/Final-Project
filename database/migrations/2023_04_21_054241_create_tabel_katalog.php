@@ -14,11 +14,13 @@ return new class extends Migration
     {
         Schema::create('barangs', function (Blueprint $table) {
             $table->id();
-            $table->string('kategori_barang');
-            $table->string('nama_barang', 80)->validate(['min: 5', 'max:80']);
+            $table->string('nama_barang');
             $table->integer('harga_barang');
             $table->integer('jumlah_barang');
-            $table->string('foto_barang')->nullable();
+            $table->string('image');
+            $table->unsignedBigInteger('category_id')->unsigned();
+
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
         });
     }

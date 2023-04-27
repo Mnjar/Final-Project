@@ -22,11 +22,10 @@ class BarangRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kategori_barang' => 'required|string',
             'nama_barang' => 'required|string|min:5|max:80',
             'harga_barang' => 'required|integer',
             'jumlah_barang' => 'required|integer',
-            'foto_barang' => 'image',
+            // 'foto_barang' => 'image',
         ];
     }
 }
