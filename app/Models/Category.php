@@ -10,11 +10,12 @@ class Category extends Model
 {
     protected $fillable = ['category_name'];
 
-    // relasi one to many
     public function barang()
     {
-        return $this->hasMany(Barang::class, 'category_id', 'id');
+        return $this->hasMany(Barang::class, 'category_id');
     }
+
+
 
     use HasFactory;
 }

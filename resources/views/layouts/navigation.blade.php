@@ -25,7 +25,7 @@
                             {{ __('Daftar Barang') }}
                         </x-nav-link>
                         @if(Auth::user()->role == 'user')
-                            <x-nav-link :href="route('viewBuyer')" :active="request()->routeIs('viewBuyer')">
+                            <x-nav-link :href="route('getInvoice')" :active="request()->routeIs('getInvoice')">
                                 {{ __('Faktur') }}
                             </x-nav-link>
                         @endif

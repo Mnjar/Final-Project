@@ -30,12 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/get-barang', [BarangController::class, 'getBarang'])->name('getBarang');
-    // Route::get('/get-barang-user', [BarangController::class, 'getBarangForUser'])->name('getBarangForUser');
-    Route::get('/view-buyer', [BuyerController::class, 'viewBuyer'])->name('viewBuyer');
-    // Route::get('/products', [ProductController::class, 'index'])->name('product.index');
-    Route::post('/invoice/add_item', [InvoiceController::class, 'addItem'])->name('invoice.add_item');
-    Route::get('/invoice/{invoice}', [InvoiceController::class, 'show'])->name('invoice.show');
-    
+    Route::get('/view', [InvoiceController::class, 'getCreateInvoice'])->name('getCreateInvoice');
+    Route::post('/create-invoice/{id}', [InvoiceController::class, 'createInvoice'])->name('createInvoice');
+    Route::get('/view-buyer', [InvoiceController::class, 'getInvoice'])->name('getInvoice');    
 });
 
 Route::middleware('admin')->group(function () {

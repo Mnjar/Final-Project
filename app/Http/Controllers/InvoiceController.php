@@ -3,41 +3,54 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\InvoiceDetail;
+use App\Models\Barang;
+use App\Models\Category;
+use App\Models\Invoice;
+use Illuminate\Support\Facades\DB;
+
 class InvoiceController extends Controller
 {
-    public function addItem(Request $request)
+    public function getCreateInvoice()
     {
-        $invoice = InvoiceDetail::where('invoice_number', $request->invoice_number)->first();
+        $categories = Category::all();
+        return view('view', ['categories'=>$categories]);
+    }
 
-        if (!$invoice) {
-            $invoice = new InvoiceDetail([
-                'invoice_number' => $request->invoice_number,
-                'customer_name' => $request->customer_name,
-                'total_amount' => 0,
-            ]);
-    
-            $invoice->save();
-        }
-    
-        $invoiceDetail = new InvoiceDetail([
+    public function createInvoice(Request $request, $id)
+    {
+        $barang = Barang::find($id);
+        Invoice::create([
+            // 'customer_name' => $request->costumer_name,
             'product_name' => $request->product_name,
             'quantity' => $request->quantity,
-            'price' => $request->price,
-            'subtotal' => $request->quantity * $request->price,
+            'price' => $barang->harga_barang,
+            // 'postal_code' => $request->postal_code,
+            'category_id' => $barang->category_id,
+            'total_amount' => $barang->harga_barang * $request->total_amount,
         ]);
-    
-        $invoice->details()->save($invoiceDetail);
-    
-        $invoice->total_amount += $invoiceDetail->subtotal;
-        $invoice->save();
-    
-        return redirect()->route('invoice.show', ['invoice' => $invoice]);
+        // return redirect(route('viewBuyer'));
+        // $barang = Barang::find($request->nama_barang);
+        // $barang = Barang::findOrFail($id);
+        // $barang = Barang::find($id);
+        // $barang = Barang::find($id);
+
+        // Invoice::create([
+        //     'product_name' => $barang->id,
+        //     'quantity' => $request->quantity,
+        //     'price' => $barang->harga_barang,
+        //     'category_id' => $barang->category_id,
+        //     'total_amount' => $barang->harga_barang * $request->quantity,
+        // ]);
+        return redirect(route('viewBuyer'));
     }
-    
-    public function show(InvoiceDetail $invoice)
+
+    public function getInvoice()
     {
-        return view('invoice.show', compact('invoice'));
+        $barangs = Barang::with('category')->get();
+        $categories = Category::with('barang')->get();
+        $invoices = Invoice::all();
+
+        return view ('viewBuyer', compact('barangs', 'categories', 'invoices'));
     }
     
-    }
+}

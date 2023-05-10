@@ -37,12 +37,14 @@
                                 <th scope="col">Jumlah Barang</th>
                                 <th scope="col">Category</th>
                                 <th scope="col">Foto Barang</th>
-                                @if(Auth::check())
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                {{-- @if(Auth::check())
                                     @if(Auth::user()->role == 'admin')
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                     @endif
-                                @endif
+                                @endif --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -61,27 +63,21 @@
                                     </td>
                                     <td>
                                         <form action="{{route('deleteBarang', ['id' => $barang->id])}}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-danger col-md" style="background-color: #dc3545">Delete</button>
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-danger col-md" style="background-color: #dc3545">Delete</button>
                                         </form>
                                     </td>
                                     @endif
                                     @if(Auth::user()->role == 'user')
                                         <td>
-                                            <form action="{{route('invoice.add_item', ['id' => $barang->id])}}" method="post">
-                                            @csrf
-                                            <button type="submit" class="btn btn-primary col-md">Tambahkan ke Faktur</button>
+                                            <form action="{{route('createInvoice', ['id' => $barang->id])}}" method="post">
+                                                <input name="quantity" type="number" id="kuantitas" name="kuantitas" value="">
+                                                <input type="hidden" name="product_name" value="{{ $barang->id }}">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary col-md">Tambahkan ke Faktur</button>
                                             </form>
                                         </td>
-                                        {{-- <form action="{{ route('invoice.add_item') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="invoice_number" value="{{ $invoice->invoice_number }}">
-                                            <input type="hidden" name="product_name" value="{{ $product->name }}">
-                                            <input type="hidden" name="quantity" value="1">
-                                            <input type="hidden" name="price" value="{{ $product->price }}">
-                                            <button type="submit">Tambahkan ke Faktur</button>
-                                        </form> --}}
                                     @endif
                                 @endif
                             </tr>
